@@ -54,7 +54,14 @@ export async function createReview(req, res, next) {
 
     return res.status(201).json({ review });
     
-  } catch (err) { next(err); }
+  } catch (err) {
+    if (err.name === 'ValidationError') {
+    return res.status(400).json({
+      message: err.message
+    });
+  }
+
+     next(err); }
 }
 
 // GET /api/reviews/summary?mealCode=ML101
